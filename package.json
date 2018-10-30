@@ -4,6 +4,7 @@
   "description": "Provides native type extraction from Joi schemas for Typescript",
   "main": "dist/index.js",
   "scripts": {
+    "release": "release-it",
     "prepare": "rm -rf dist && tsc",
     "test": "tsc --build ./tsconfig.json"
   },
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/TCMiranda/joi-extract-type#readme",
   "devDependencies": {
+    "release-it": "^7.6.2",
     "tsc": "^1.20150623.0",
     "typescript": "^2.9.2"
   },
