@@ -1,12 +1,16 @@
 import {
   AnySchema,
   ValidationResult,
+  ValidationError,
+  Schema,
   ValidationOptions,
   SchemaLike
 } from "joi";
 export {
   AnySchema,
   ValidationResult,
+  ValidationError,
+  Schema,
   ValidationOptions,
   SchemaLike
 } from "joi";
