@@ -45,7 +45,7 @@ type primitiveType =
   | void;
 type thruthyPrimitiveType = NonNullable<primitiveType>;
 type schemaMap = { [key: string]: mappedSchema };
-type mappedSchema = SchemaLike | BoxedPrimitive | mappedSchemaMap;
+type mappedSchema = joi.SchemaLike | BoxedPrimitive | mappedSchemaMap;
 type mappedSchemaMap<T extends schemaMap = any> = { [K in keyof T]: T[K] };
 
 export type extendsGuard<T, S> = S extends T ? S : T;
@@ -56,22 +56,28 @@ export type extendsGuard<T, S> = S extends T ? S : T;
 export function validate<T, S extends mappedSchemaMap>(
   value: T,
   schema: S
-): ValidationResult<extendsGuard<T, extractType<S>>>;
+): joi.ValidationResult<extendsGuard<T, extractType<S>>>;
 export function validate<T, S extends mappedSchemaMap>(
   value: T,
-  schema: SchemaLike,
-  options: ValidationOptions
-): ValidationResult<extendsGuard<T, extractType<S>>>;
+  schema: joi.SchemaLike,
+  options: joi.ValidationOptions
+): joi.ValidationResult<extendsGuard<T, extractType<S>>>;
 export function validate<T, R, S extends mappedSchemaMap>(
   value: T,
-  schema: SchemaLike,
-  options: ValidationOptions,
-  callback: (err: ValidationError, value: extendsGuard<T, extractType<S>>) => R
+  schema: joi.SchemaLike,
+  options: joi.ValidationOptions,
+  callback: (
+    err: joi.ValidationError,
+    value: extendsGuard<T, extractType<S>>
+  ) => R
 ): R;
 export function validate<T, R, S extends mappedSchemaMap>(
   value: T,
-  schema: SchemaLike,
-  callback: (err: ValidationError, value: extendsGuard<T, extractType<S>>) => R
+  schema: joi.SchemaLike,
+  callback: (
+    err: joi.ValidationError,
+    value: extendsGuard<T, extractType<S>>
+  ) => R
 ): R;
 
 // TODO: concat
@@ -235,7 +241,7 @@ export function func<T extends Function>(): FunctionSchema<Box<T, false>>;
 /**
  * Array: extraction decorated schema
  */
-export interface ArraySchema<N = never> extends joi.ArraySchema {
+export interface ArraySchema<N = never> extends joi.AnySchema {
   items<T extends mappedSchema>(
     type: T
   ): this extends ArraySchema<infer O>
@@ -251,7 +257,7 @@ export interface ArraySchema<N = never> extends joi.ArraySchema {
 /**
  * Object: extraction decorated schema
  */
-export interface ObjectSchema<N = null> extends joi.ObjectSchema {
+export interface ObjectSchema<N = null> extends joi.AnySchema {
   keys<T extends mappedSchemaMap>(
     schema: T
   ): this extends ObjectSchema<infer O>
@@ -276,8 +282,8 @@ export interface AlternativesSchema<T extends mappedSchema = any>
   try<T extends mappedSchema[]>(
     values: T
   ): AlternativesSchema<extractType<typeof values[number]>>;
-  try(...types: SchemaLike[]): this;
-  try(types: SchemaLike[]): this;
+  try(...types: joi.SchemaLike[]): this;
+  try(types: joi.SchemaLike[]): this;
 }
 
 export function alternatives<T extends mappedSchema[]>(
