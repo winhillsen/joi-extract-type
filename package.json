@@ -2,10 +2,9 @@
   "name": "@winhillsen/joi-extract-type",
   "version": "0.0.7",
   "description": "Provides native type extraction from Joi schemas for Typescript",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "release": "release-it",
-    "prepare": "rm -rf dist && tsc",
     "test": "tsc --build ./tsconfig.json"
   },
   "repository": {
