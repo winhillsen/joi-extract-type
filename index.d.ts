@@ -6,7 +6,7 @@ import * as joi from "joi";
 type Map<T> = { [P in keyof T]: T[P] };
 type Diff<T, U> = T extends U ? never : T;
 
-module "joi" {
+declare module "joi" {
   /**
    * Field requirements interface
    */
@@ -349,15 +349,15 @@ module "joi" {
      */
     T extends Array<infer O>
       ? extractOne<O>
-      : /**
+        /**
          * Handle Objects as schemas, without Joi.object at the root
          */
-        T extends { [K: string]: mappedSchema }
+      : T extends { [K: string]: mappedSchema }
         ? extractMap<T>
-        : /**
+          /**
            * Default case to handle primitives and schemas
            */
-          extractOne<T>;
+        : extractOne<T>;
 }
 
 export = joi;
