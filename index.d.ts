@@ -1,3 +1,16 @@
+import {
+  AnySchema,
+  ValidationResult,
+  ValidationOptions,
+  SchemaLike
+} from "joi";
+export {
+  AnySchema,
+  ValidationResult,
+  ValidationOptions,
+  SchemaLike
+} from "joi";
+
 /**
  * Helpers
  */
@@ -340,12 +353,12 @@ export type extractType<T extends mappedSchema> =
    */
   T extends Array<infer O>
     ? extractOne<O>
-    : /**
+      /**
        * Handle Objects as schemas, without Joi.object at the root
        */
-      T extends { [K: string]: mappedSchema }
+    : T extends { [K: string]: mappedSchema }
       ? extractMap<T>
-      : /**
+        /**
          * Default case to handle primitives and schemas
          */
-        extractOne<T>;
+      : extractOne<T>;
